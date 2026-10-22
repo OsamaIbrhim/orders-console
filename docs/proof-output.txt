@@ -1,0 +1,4 @@
+Sending the SAME create request 10 times in parallel...
+status codes: 201 200 200 200 200 200 200 200 200 200
+orders in the database for proof-1792672939790@example.com: 1
+PASS: exactly one order exists.
