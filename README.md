@@ -61,7 +61,7 @@ after    SCAN orders USING COVERING INDEX idx_orders_created_at           ~0.02 
 
 Search is "starts with" and not "contains" because `LIKE '%text%'` cannot use an index. SQLite only uses the index for `LIKE` when the column is `COLLATE NOCASE` and the pattern has no leading `%`.
 
-**The rapid-filter test.** Every list request gets an `AbortController`. When the filters change, React's effect cleanup aborts the previous request, and the response handler checks `signal.aborted` before it touches state. So a slow old response can never overwrite a newer one. The search box is also debounced by 300 ms so typing does not send a request per letter. I checked this in a browser by delaying the responses (status `pending` 2.5 s, `paid` 1.5 s, `cancelled` 0.1 s), changing the filter three times quickly, and confirming only `cancelled` rows were left. Screenshot: `docs/screenshots/rapid-filter.png`.
+**The rapid-filter test.** I checked this in Chrome with DevTools on "3G" and cache disabled: I changed the status filter three times quickly, the first two requests show as (canceled) in the Network tab, and only the last filter's rows are on screen.
 
 ## R2: create order, no duplicates
 
@@ -126,7 +126,7 @@ If she cannot answer, I would delete nothing: hide cancelled orders by default a
 |---|---|
 | `docs/screenshots/list.png` | the list after login |
 | `docs/screenshots/rapid-filter.png` | the rapid-filter test result |
-| `docs/screenshots/create-order.png` | the order created once, found by its email |
+| `docs/screenshots/prove.png` | `npm run prove`: 10 parallel requests, one order |
 | `docs/proof-output.txt` | output of `npm run prove` |
 
 ## Project layout
