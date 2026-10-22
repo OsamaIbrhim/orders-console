@@ -61,7 +61,7 @@ after    SCAN orders USING COVERING INDEX idx_orders_created_at           ~0.02 
 
 Search is "starts with" and not "contains" because `LIKE '%text%'` cannot use an index. SQLite only uses the index for `LIKE` when the column is `COLLATE NOCASE` and the pattern has no leading `%`.
 
-**The rapid-filter test.** I checked this in Chrome with DevTools on "3G" and cache disabled: I changed the status filter three times quickly, the first two requests show as (canceled) in the Network tab, and only the last filter's rows are on screen.
+**The rapid-filter test.** Every list request gets an AbortController. When the filters change, the previous request is aborted, so a slow old response can never overwrite a newer one. The search box is debounced by 300 ms. I checked this in Chrome with DevTools on "3G" and cache disabled: I changed the status filter three times quickly, the first two requests show as (canceled) in the Network tab, and only the last filter's rows are on screen.
 
 ## R2: create order, no duplicates
 
